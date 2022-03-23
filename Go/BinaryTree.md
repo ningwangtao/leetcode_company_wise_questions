@@ -332,7 +332,101 @@ func pathSum(root *TreeNode, targetSum int) int {
 	return res
 }
 ```
-## prefix sum + backtracking
+## prefix sum + backtracking + preorder traversal
 ```go
+func pathSum(root *TreeNode, targetSum int) int {
+	m := make(map[int]int)
+	m[0] = 1
+	res := 0
+	var DFS func(*TreeNode,int)
+	DFS = func(tn *TreeNode,cur int) {
+		if tn == nil {
+			return
+		}
+		cur += tn.Val
+		if _,ok := m[cur - targetSum];ok{
+			res += m[cur - targetSum]
+		}
+		m[cur]++
+		DFS(tn.Left,cur)
+		DFS(tn.Right,cur)
+		m[cur]--
+	}
+	DFS(root,0)
+	return res
+}
+```
+# 10,Maximum Difference Between Node and Ancestor -- [leetcode1026](https://leetcode-cn.com/problems/maximum-difference-between-node-and-ancestor/)
+```go
+/**
+ * Definition for a binary tree node.
+ * type TreeNode struct {
+ *     Val int
+ *     Left *TreeNode
+ *     Right *TreeNode
+ * }
+ */
+func DFS(root *TreeNode, min int ,max int) int{
+    if root == nil{
+        return max - min
+    }
+    if min > root.Val{
+        min = root.Val
+    }
+    if max < root.Val{
+        max = root.Val
+    }
+    l := DFS(root.Left,min,max)
+    r := DFS(root.Right,min,max)
+    return maxfunc(l,r)
+}
+func maxAncestorDiff(root *TreeNode) int {
+    if root == nil{
+        return 0
+    }
+    return DFS(root,root.Val,root.Val)
+}
+func maxfunc(a,b int) int{
+    if a > b{
+        return a
+    }else{
+        return b
+    }
+}
+```
+# 11,Binary Tree Pruning -- [leetcode814](https://leetcode-cn.com/problems/binary-tree-pruning/)
+```go
+/**
+ * Definition for a binary tree node.
+ * type TreeNode struct {
+ *     Val int
+ *     Left *TreeNode
+ *     Right *TreeNode
+ * }
+ */
+func execute(root *TreeNode) bool {
+	if root == nil {
+		return false
+	}
+	l := execute(root.Left)
+	r := execute(root.Right)
+	if !l {
+		root.Left = nil
+	}
+	if !r {
+		root.Right = nil
+	}
+	if !l && !r && root.Val == 0 {
+		return false
+	}
+	return true
+}
 
+func pruneTree(root *TreeNode) *TreeNode {
+	res := execute(root)
+	if !res {
+		return nil
+	}
+	return root
+}
 ```
