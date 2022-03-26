@@ -1,5 +1,5 @@
 # 1,Binary Tree Preorder Traversal -- [leetcode144](https://leetcode-cn.com/problems/binary-tree-preorder-traversal/)
-## stack/dfs
+## stack + dfs
  ```go {.line-numbers}
 /**
  * Definition for a binary tree node.
@@ -71,8 +71,7 @@ func sumNumbers(root *TreeNode) int {
 
 # 3,Maximum Depth of Binary Tree -- [leetcode104](https://leetcode-cn.com/problems/maximum-depth-of-binary-tree/)
 ## recursive
-
-```go
+```go {.line-numbers}
 /**
  * Definition for a binary tree node.
  * type TreeNode struct {
@@ -96,7 +95,7 @@ func maxDepth(root *TreeNode) int {
 }
 ```
 # <font color=#E9967A>4,Maximum Width fo Binary Tree</font> -- [leetcode662](https://leetcode-cn.com/problems/maximum-width-of-binary-tree/)
-## queue/level order traversal
+## queue/level order traverse
 
 ```go {.line-numbers}
 /**
@@ -140,8 +139,8 @@ func widthOfBinaryTree(root *TreeNode) int {
 ```
 
 # 5,Binary Tree Level Order Traversal -- [leetcode102](https://leetcode-cn.com/problems/binary-tree-level-order-traversal/)
-## level order traversal
-```go
+## level order traverse
+```go {.line-numbers}
 /**
  * Definition for a binary tree node.
  * type TreeNode struct {
@@ -181,8 +180,8 @@ func levelOrder(root *TreeNode) [][]int {
 }
 ```
 # 6,Binary Tree Level Order Traversal II -- [leetcode107](https://leetcode-cn.com/problems/binary-tree-level-order-traversal-ii/)
-## level order traversal
-```go
+## level order traverse
+```go {.line-numbers}
 /**
  * Definition for a binary tree node.
  * type TreeNode struct {
@@ -224,8 +223,8 @@ func levelOrderBottom(root *TreeNode) [][]int {
 ```
 
 # 7,Binary Tree Zigzag Level Order Traversal -- [leetcode103](https://leetcode-cn.com/problems/binary-tree-zigzag-level-order-traversal/)
-## bfs/level order traversal
-```go
+## bfs/level order traverse
+```go {.line-numbers}
 /**
  * Definition for a binary tree node.
  * type TreeNode struct {
@@ -271,7 +270,7 @@ func zigzagLevelOrder(root *TreeNode) [][]int {
 
 # <font color=#E9967A>8,Path Sum II</font> -- [leetcode113](https://leetcode-cn.com/problems/path-sum-ii/)
 ## backtracking
-```go
+```go {.line-numbers}
 func pathSum(root *TreeNode, targetSum int) [][]int {
 	if root == nil {
 	    return nil
@@ -301,7 +300,7 @@ func pathSum(root *TreeNode, targetSum int) [][]int {
 ```
 # <font color=#E9967A>9,Path Sum III</font> --[leetcode437](https://leetcode-cn.com/problems/path-sum-iii/)
 ## DFS
-```go
+```go {.line-numbers}
 /**
  * Definition for a binary tree node.
  * type TreeNode struct {
@@ -332,8 +331,8 @@ func pathSum(root *TreeNode, targetSum int) int {
 	return res
 }
 ```
-## prefix sum + backtracking + preorder traversal
-```go
+## prefix sum + backtracking + preorder traverse
+```go {.line-numbers}
 func pathSum(root *TreeNode, targetSum int) int {
 	m := make(map[int]int)
 	m[0] = 1
@@ -357,7 +356,8 @@ func pathSum(root *TreeNode, targetSum int) int {
 }
 ```
 # 10,Maximum Difference Between Node and Ancestor -- [leetcode1026](https://leetcode-cn.com/problems/maximum-difference-between-node-and-ancestor/)
-```go
+## postorder traverse
+```go {.line-numbers}
 /**
  * Definition for a binary tree node.
  * type TreeNode struct {
@@ -395,7 +395,8 @@ func maxfunc(a,b int) int{
 }
 ```
 # 11,Binary Tree Pruning -- [leetcode814](https://leetcode-cn.com/problems/binary-tree-pruning/)
-```go
+## postorder traverse
+```go {.line-numbers}
 /**
  * Definition for a binary tree node.
  * type TreeNode struct {
@@ -421,12 +422,46 @@ func execute(root *TreeNode) bool {
 	}
 	return true
 }
-
 func pruneTree(root *TreeNode) *TreeNode {
 	res := execute(root)
 	if !res {
 		return nil
 	}
 	return root
+}
+```
+# 12,Diameter of Binary Tree -- [leetcode543](https://leetcode-cn.com/problems/diameter-of-binary-tree/)
+### postorder traverse
+```go{.line-numbers}
+/**
+ * Definition for a binary tree node.
+ * type TreeNode struct {
+ *     Val int
+ *     Left *TreeNode
+ *     Right *TreeNode
+ * }
+ */
+func diameterOfBinaryTree(root *TreeNode) int {
+	if root == nil {
+		return 0
+	}
+	max := 0
+	var DFS func(*TreeNode) int
+	DFS = func(tn *TreeNode) int {
+		if tn == nil {
+			return 0
+		}
+		l := DFS(tn.Left)
+		r := DFS(tn.Right)
+		if max < l+r {
+			max = l + r
+		}
+		if l > r {
+			return l+1
+		}
+		return r + 1
+	}
+	DFS(root)
+	return max
 }
 ```
