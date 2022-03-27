@@ -431,7 +431,7 @@ func pruneTree(root *TreeNode) *TreeNode {
 }
 ```
 # 12,Diameter of Binary Tree -- [leetcode543](https://leetcode-cn.com/problems/diameter-of-binary-tree/)
-### postorder traverse
+## postorder traverse
 ```go{.line-numbers}
 /**
  * Definition for a binary tree node.
