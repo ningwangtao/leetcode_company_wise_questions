@@ -1,6 +1,6 @@
 # 1,Longest Palindromic Substring -- [leetcode 5](https://leetcode-cn.com/problems/longest-palindromic-substring/)
 ## dynamic program
-```go{.line-numbers}
+```go {.line-numbers}
 func longestPalindrome(s string) string {
 	length := len(s)
 	dp := make([][]bool, length)
@@ -28,7 +28,7 @@ func longestPalindrome(s string) string {
 ```
 # 2,Longest Common Subsequence -- [leetcode1143](https://leetcode-cn.com/problems/longest-common-subsequence/)
 ## dynamic program
-```go{.line-numbers}
+```go {.line-numbers}
 func longestCommonSubsequence(text1 string, text2 string) int {
 	len1, len2 := len(text1), len(text2)
 	dp := make([][]int, len1+1)
@@ -56,7 +56,7 @@ func getmax(a, b int) int {
 ```
 # 3,Longest Increasing Subsequence -- [leetcode300](https://leetcode-cn.com/problems/longest-increasing-subsequence/)
 ## dynamic program
-```go{.line-numbers}
+```go {.line-numbers}
 func lengthOfLIS(nums []int) int {
     length := len(nums)
     dp := make([]int , length)
@@ -81,7 +81,7 @@ func getmax(a,b int)int{
 ```
 # 4，Triangle -- [leetcode120](https://leetcode-cn.com/problems/triangle/)
 ### dynamic program
-```go{.line-numbers}
+```go {.line-numbers}
 func minimumTotal(triangle [][]int) int {
 	height := len(triangle)
 	if height == 1 {
@@ -111,7 +111,7 @@ func minimumTotal(triangle [][]int) int {
 # 5，Maximum Product Subarray -- [leetcode152](https://leetcode-cn.com/problems/maximum-product-subarray/)
 
 ### dynamic program
-```go{.line-numbers}
+```go {.line-numbers}
 func maxProduct(nums []int) int {
 	length := len(nums)
 	fmax, fmin ,max:= nums[0], nums[0],nums[0]
@@ -138,7 +138,7 @@ func getmin(a, b int) int {
 ```
 # 6,Minimum Path Sum -- [leetcode64](https://leetcode-cn.com/problems/minimum-path-sum/)
 
-```go{.line-numbers}
+```go {.line-numbers}
 func minPathSum(grid [][]int) int {
 	row := len(grid)
 	column := len(grid[0])
@@ -168,7 +168,7 @@ func getmin(a, b int) int {
 
 # 7,Unique Paths -- [leetcode62](https://leetcode-cn.com/problems/unique-paths/submissions/)
 
-```go{.line-numbers}
+```go {.line-numbers}
 func uniquePaths(m int, n int) int {
 	if m == 1 || n == 1 {
 		return 1
@@ -193,7 +193,7 @@ func uniquePaths(m int, n int) int {
 ```
 # 8， Word Break -- [leetcode139](https://leetcode-cn.com/problems/word-break/)
 ###
-```go{.line-numbers}
+```go {.line-numbers}
 func wordBreak(s string, wordDict []string) bool {
 	length := len(s)
 	word := make(map[string]bool)
@@ -211,5 +211,34 @@ func wordBreak(s string, wordDict []string) bool {
 		}
 	}
 	return dp[length]
+}
+```
+# 9，Coin Change -- [leetcode322](https://leetcode-cn.com/problems/coin-change/)
+
+```go {.line-numbers}
+func coinChange(coins []int, amount int) int {
+	length := len(coins)
+	dp := make([]int, amount+1)
+	for i := range dp{
+		dp[i] = math.MaxInt32
+	}
+	dp[0]= 0
+	for i := 1; i <= amount; i++ {
+		for j := 0; j < length; j++ {
+			if i >= coins[j] {
+				dp[i] = getmin(dp[i], dp[i-coins[j]]+1)
+			}
+		}
+	}
+	if dp[amount] == math.MaxInt32 {
+		return -1
+	}
+	return dp[amount]
+}
+func getmin(a, b int) int {
+	if a > b {
+		return b
+	}
+	return a
 }
 ```
