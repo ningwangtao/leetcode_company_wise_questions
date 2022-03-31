@@ -242,3 +242,65 @@ func getmin(a, b int) int {
 	return a
 }
 ```
+# 10,Target Sum -- [leetcode494](https://leetcode-cn.com/problems/target-sum/)
+
+```go {.line-numbers}
+func findTargetSumWays(nums []int, target int) int {
+	sum := 0
+	for _, v := range nums {
+		sum += v
+	}
+	if sum+target < 0 || ((sum+target)&1) == 1 {
+		return 0
+	}
+	amount := (sum + target) / 2
+	dp := make([]int, amount+1)
+	dp[0] = 1
+	for _, num := range nums {
+		for j := amount; j >= num; j-- {
+			dp[j] += dp[j-num]
+		}
+	}
+	return dp[amount]
+	/* 
+	sum := 0
+	for i := range nums {
+		sum += nums[i]
+	}
+	if sum+target < 0 || ((sum+target)&1) == 1{
+		return 0
+	}
+	amount, length := (sum+target)/2, len(nums)
+	dp := make([][]int, length+1)
+	for i := range dp {
+		dp[i] = make([]int, amount+1)
+	}
+	dp[0][0] = 1
+	for i := 1; i <= length; i++{
+		for j := 0; j <= amount; j++{
+			dp[i][j] = dp[i-1][j]
+			if j >= nums[i-1]{
+				dp[i][j] = dp[i-1][j] + dp[i-1][j-nums[i-1]]
+			}
+		}
+	}
+	return dp[length][amount]
+	*/
+	/* 
+	   count :=0
+	   var DFS func(int,int)
+	   DFS = func(index int ,sum int){
+	       if index == len(nums){
+	           if sum == target{
+	               count++
+	           }
+	           return
+	       }
+	       DFS(index+1,sum + nums[index])
+	       DFS(index+1,sum - nums[index])
+	   }
+	   DFS(0,0)
+	   return count
+	*/
+}
+```
